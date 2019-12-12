@@ -1,3 +1,4 @@
+## How to run this project on `app` folder, file `README.md`
 ## (1) DEVELOPING A NEW TOOL (Web service/API only. No user interface needed.)
 
 ### User Stories
