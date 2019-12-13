@@ -12,4 +12,5 @@
 */
 
 Route::middleware('api')->get('/tasks', 'TaskController@listTasks');
-Route::middleware('api')->get('/tasks/{idOrUuid}', 'TaskController@task');
+Route::middleware('api')->get('/tasks/{idOrUuid}', 'TaskController@find')->name('findTask');
+Route::middleware('api')->post('/tasks', 'TaskController@new');
