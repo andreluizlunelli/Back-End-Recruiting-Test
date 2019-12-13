@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\NewTaskService;
 use App\Services\TaskSearchService;
 use App\Services\TemporaryGuestService;
+use App\Services\UpdateTaskService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,6 +27,11 @@ class TaskController extends Controller
     private $newTask;
 
     /**
+     * @var UpdateTaskService
+     */
+    private $updateTask;
+
+    /**
      * @var \App\User
      */
     private $user;
@@ -35,12 +41,18 @@ class TaskController extends Controller
      * @param TaskSearchService $search
      * @param TemporaryGuestService $guest
      * @param NewTaskService $newTask
+     * @param UpdateTaskService $updateTask
      */
-    public function __construct(TaskSearchService $search, TemporaryGuestService $guest, NewTaskService $newTask)
-    {
+    public function __construct(
+        TaskSearchService $search,
+        TemporaryGuestService $guest,
+        NewTaskService $newTask,
+        UpdateTaskService $updateTask
+    ) {
         $this->searchTasks = $search;
         $this->guest = $guest;
         $this->newTask = $newTask;
+        $this->updateTask = $updateTask;
         $this->user = $guest->get();
     }
 
@@ -133,6 +145,23 @@ class TaskController extends Controller
             ];
 
             return response()->json($message, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function edit(Request $request, $idOrUuid)
+    {
+        try {
+            $task = $this->searchTasks->get($this->user, $idOrUuid);
+
+            return $this->updateTask->update($task, $request)->front();
+
+        } catch (NotFoundException $exception) {
+
+            $message = [
+                'message' => 'Are you a hacker or something? The task you were trying to edit doesn\'t exist.'
+            ];
+
+            return response()->json($message, Response::HTTP_NOT_FOUND, $message);
         }
     }
 

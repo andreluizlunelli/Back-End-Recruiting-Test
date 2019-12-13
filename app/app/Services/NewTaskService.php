@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 
 class NewTaskService
 {
+    use TypeToLowerCaseTrait;
+
     /**
      * @var ValidateNewTaskInputsService
      */
@@ -41,13 +43,5 @@ class NewTaskService
 
         return $task;
     }
-
-    private function changeTypeToLowerCase(array $all): array
-    {
-        $all['type'] = mb_strtolower($all['type']);
-
-        return $all;
-    }
-
 
 }
