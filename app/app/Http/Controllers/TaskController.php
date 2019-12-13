@@ -44,7 +44,7 @@ class TaskController extends Controller
         $this->user = $guest->get();
     }
 
-    public function listTasks(Request $request)
+    public function list(Request $request)
     {
         $args = [
             'limit' => $request->get('limit', 15),
@@ -72,10 +72,9 @@ class TaskController extends Controller
         return response()->json($message, Response::HTTP_NOT_FOUND, $message);
     }
 
-    public function find(Request $request)
+    public function find(Request $request, $idOrUuid)
     {
         try {
-            $idOrUuid = $request->route()->parameter('idOrUuid');
 
             return $this->searchTasks->get($this->user, $idOrUuid)->front();
 
@@ -99,6 +98,33 @@ class TaskController extends Controller
             ];
 
             return response()->json($task->front(), Response::HTTP_CREATED, $headers);
+
+        } catch (\Throwable $t) {
+
+            $message = [
+                'message' => $t->getMessage()
+            ];
+
+            return response()->json($message, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function delete(Request $request, $idOrUuid)
+    {
+        try {
+            $task = $this->searchTasks->get($this->user, $idOrUuid);
+
+            $task->delete();
+
+            return response()->json('', Response::HTTP_NO_CONTENT);
+
+        } catch (NotFoundException $t) {
+
+            $message = [
+                'message' => 'Good news! The task you were trying to delete didn\'t even exist.'
+            ];
+
+            return response()->json($message, Response::HTTP_NOT_FOUND, $message);
 
         } catch (\Throwable $t) {
 
