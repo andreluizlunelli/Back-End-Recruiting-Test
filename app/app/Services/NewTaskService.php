@@ -25,7 +25,7 @@ class NewTaskService
 
     public function new(User $user, Request $inputs): Task
     {
-        $dataInputs = $inputs->all();
+        $dataInputs = $this->changeTypeToLowerCase($inputs->all());
 
         $this->validate->validate($dataInputs);
 
@@ -41,5 +41,13 @@ class NewTaskService
 
         return $task;
     }
+
+    private function changeTypeToLowerCase(array $all): array
+    {
+        $all['type'] = mb_strtolower($all['type']);
+
+        return $all;
+    }
+
 
 }
