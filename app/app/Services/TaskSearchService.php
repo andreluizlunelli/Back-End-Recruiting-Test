@@ -58,4 +58,18 @@ class TaskSearchService
         }
     }
 
+    public function get(User $user, $idOrUuid): Task
+    {
+        $builder = is_numeric($idOrUuid)
+            ? Task::where('id', $idOrUuid)
+            : Task::where('uuid', $idOrUuid);
+
+        $task = $builder->where('user_id', $user->id)->first();
+
+        if (empty($task))
+            throw new \Exception('Wow. Nothing here.');
+
+        return $task;
+    }
+
 }

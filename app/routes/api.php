@@ -12,3 +12,4 @@
 */
 
 Route::middleware('api')->get('/tasks', 'TaskController@listTasks');
+Route::middleware('api')->get('/tasks/{idOrUuid}', 'TaskController@task');
