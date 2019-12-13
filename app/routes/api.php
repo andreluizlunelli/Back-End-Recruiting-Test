@@ -11,6 +11,7 @@
 |
 */
 
-Route::middleware('api')->get('/tasks', 'TaskController@listTasks');
+Route::middleware('api')->get('/tasks', 'TaskController@list');
 Route::middleware('api')->get('/tasks/{idOrUuid}', 'TaskController@find')->name('findTask');
 Route::middleware('api')->post('/tasks', 'TaskController@new');
+Route::middleware('api')->delete('/tasks/{idOrUuid}', 'TaskController@delete');

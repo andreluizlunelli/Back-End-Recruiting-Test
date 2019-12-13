@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Controllers\NotFoundException;
 use App\Models\Task;
 use App\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -67,7 +68,7 @@ class TaskSearchService
         $task = $builder->where('user_id', $user->id)->first();
 
         if (empty($task))
-            throw new \Exception('Wow. Nothing here.');
+            throw new NotFoundException('Wow. Nothing here.');
 
         return $task;
     }
