@@ -67,4 +67,28 @@ class ValidateNewTaskInputsServiceTest extends TestCase
 
         $this->service->validate($inputs);
     }
+
+    public function testValidateEmpyRequest()
+    {
+        $inputs = [];
+
+        self::expectException(\InvalidArgumentException::class);
+        self::expectErrorMessage('Try sending these parameters here: [title => string, description => string, type => work|shopping, priority => int]');
+
+        $this->service->validate($inputs);
+    }
+
+    public function testValidateInputsWithoutType()
+    {
+        $inputs = [
+            'description' => 'my description',
+            'priority' => 0,
+        ];
+
+        self::expectException(\InvalidArgumentException::class);
+        self::expectErrorMessage('The type field is required.');
+
+        $this->service->validate($inputs);
+    }
+
 }
