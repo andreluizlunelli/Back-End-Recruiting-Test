@@ -13,7 +13,7 @@ class TaskSearchService
 
     /**
      * @param User $user
-     * @param array $args [page, limit, type, done, like]
+     * @param array $args [page, limit, type, done, like, sort_order]
      *
      * @return array
      */
@@ -27,6 +27,12 @@ class TaskSearchService
         $limit = (int) isset($args['limit']) ? $args['limit'] : 15;
 
         $this->filter($builder, $args);
+
+        $sortOrder = $args['sort_order'] == 0
+            ? 'desc'
+            : 'asc';
+
+        $builder->orderBy('priority', $sortOrder);
 
         $result = $builder->paginate($limit, ['*'], $pageName = 'page', $page);
 

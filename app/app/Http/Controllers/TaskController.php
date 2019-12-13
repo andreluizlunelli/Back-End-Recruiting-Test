@@ -64,6 +64,7 @@ class TaskController extends Controller
             'type' => $request->get('type'),
             'done' => $request->get('done'),
             'like' => $request->get('like'),
+            'sort_order' => (int) $request->get('sort_order', 0),
         ];
 
         $result = $this->searchTasks->search($this->user, $args);
