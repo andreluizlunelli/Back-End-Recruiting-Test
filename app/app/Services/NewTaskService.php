@@ -43,5 +43,4 @@ class NewTaskService
 
         return $task;
     }
-
 }

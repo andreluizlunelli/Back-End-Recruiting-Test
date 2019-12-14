@@ -16,8 +16,9 @@ class ValidateNewTaskInputsService
      */
     public function validate(array $inputs): bool
     {
-        if (empty($inputs))
+        if (empty($inputs)) {
             throw new \InvalidArgumentException('Try sending these parameters here: [title => string, description => string, type => work|shopping, priority => int]');
+        }
 
         $customMessages = [
             'type.in' => 'The task type you provided is not supported. You can only use shopping or work.'
@@ -31,10 +32,10 @@ class ValidateNewTaskInputsService
 
         $validator = Validator::make($inputs, $rules, $customMessages);
 
-        if ($validator->fails())
+        if ($validator->fails()) {
             throw new \InvalidArgumentException(implode(', ', $validator->errors()->all()));
+        }
 
         return true;
     }
-
 }

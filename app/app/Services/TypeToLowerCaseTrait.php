@@ -6,7 +6,7 @@ trait TypeToLowerCaseTrait
 {
     private function changeTypeToLowerCase(array $dataInputs): array
     {
-        if ( ! array_key_exists('type', $dataInputs)) {
+        if (! array_key_exists('type', $dataInputs)) {
             return $dataInputs;
         }
 
@@ -14,5 +14,4 @@ trait TypeToLowerCaseTrait
 
         return $dataInputs;
     }
-
 }
