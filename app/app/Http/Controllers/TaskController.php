@@ -69,11 +69,11 @@ class TaskController extends Controller
 
         $result = $this->searchTasks->search($this->user, $args);
 
-        if ($result->isNotEmpty())
+        if ($result->isNotEmpty()) {
             return response()->json($result);
+        }
 
         return $this->emptyMessage();
-
     }
 
     protected function emptyMessage()
@@ -88,11 +88,8 @@ class TaskController extends Controller
     public function find(Request $request, $idOrUuid)
     {
         try {
-
             return $this->searchTasks->get($this->user, $idOrUuid)->front();
-
         } catch (\Throwable $t) {
-
             $message = [
                 'message' => $t->getMessage()
             ];
@@ -111,9 +108,7 @@ class TaskController extends Controller
             ];
 
             return response()->json($task->front(), Response::HTTP_CREATED, $headers);
-
         } catch (\Throwable $t) {
-
             $message = [
                 'message' => $t->getMessage()
             ];
@@ -130,17 +125,13 @@ class TaskController extends Controller
             $task->delete();
 
             return response()->json('', Response::HTTP_NO_CONTENT);
-
         } catch (NotFoundException $t) {
-
             $message = [
                 'message' => 'Good news! The task you were trying to delete didn\'t even exist.'
             ];
 
             return response()->json($message, Response::HTTP_NOT_FOUND, $message);
-
         } catch (\Throwable $t) {
-
             $message = [
                 'message' => $t->getMessage()
             ];
@@ -155,9 +146,7 @@ class TaskController extends Controller
             $task = $this->searchTasks->get($this->user, $idOrUuid);
 
             return $this->updateTask->update($task, $request)->front();
-
         } catch (NotFoundException $exception) {
-
             $message = [
                 'message' => 'Are you a hacker or something? The task you were trying to edit doesn\'t exist.'
             ];
@@ -165,5 +154,4 @@ class TaskController extends Controller
             return response()->json($message, Response::HTTP_NOT_FOUND, $message);
         }
     }
-
 }
