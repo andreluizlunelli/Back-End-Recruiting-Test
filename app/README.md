@@ -8,3 +8,6 @@ This project is a test for recruiting on InPhonex:
 - set application key: ``php artisan key:generate``
 - rename `.env.example` to `.env`
 
+## Get my Postman api [collection](https://www.getpostman.com/collections/70be61b218cbe63730f4)
+
+see https://www.getpostman.com/
